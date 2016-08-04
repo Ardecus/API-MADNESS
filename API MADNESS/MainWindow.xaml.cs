@@ -70,7 +70,7 @@ namespace API_MADNESS
 
         public static DateTime DateFromUnix(int unixTimeStamp)
         {
-            return DateTime.MinValue.AddSeconds(unixTimeStamp).AddDays(-1).ToLocalTime();
+            return (new DateTime(1970, 1, 1)).AddSeconds(unixTimeStamp).ToLocalTime();
         }
     }
 }
