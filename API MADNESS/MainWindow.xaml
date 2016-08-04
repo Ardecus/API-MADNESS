@@ -5,8 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:API_MADNESS"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="Notifier" Height="350" Width="525">
     <Grid>
-        
+        <Expander Header="Codeforces" IsExpanded="True">
+            <StackPanel x:Name="CodeforcesList" Orientation="Vertical">
+                <Border>
+                    <StackPanel Orientation="Vertical"/>
+                </Border>
+            </StackPanel>
+        </Expander>
     </Grid>
 </Window>

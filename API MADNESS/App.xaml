@@ -4,6 +4,13 @@
              xmlns:local="clr-namespace:API_MADNESS"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <DataTemplate x:Key="CodeforcesTemplate">
+            <Border CornerRadius="3" BorderThickness="1" BorderBrush="Gray" Background="#FFE8E8E8" Margin="10">
+                <StackPanel Orientation="Vertical">
+                    <Label FontSize="14" FontWeight="DemiBold" Content="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContentControl}}, Path=Tag}" />
+                    <Label Content="{Binding}" />
+                </StackPanel>
+            </Border>
+        </DataTemplate>
     </Application.Resources>
 </Application>
