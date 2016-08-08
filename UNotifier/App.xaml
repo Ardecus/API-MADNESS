@@ -4,6 +4,16 @@
              xmlns:local="clr-namespace:UNotifier"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <SolidColorBrush x:Key="WatchedEntryColor" Color="White"/>
+        <SolidColorBrush x:Key="NewEntryColor" Color="#FFE8E8E8"/>
+        
+        <Style x:Key="WatchableEntry" TargetType="{x:Type Border}">
+            <Setter Property="Background" Value="{StaticResource NewEntryColor}"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{StaticResource WatchedEntryColor}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Application.Resources>
 </Application>

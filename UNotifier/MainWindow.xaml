@@ -4,9 +4,29 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UNotifier"
+        xmlns:codeforces="clr-namespace:Codeforces"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="UNotifier" Height="300" Width="300">
+
     <Grid>
-        
+        <Expander Header="Codeforces" IsExpanded="True">
+            <Expander.DataContext>
+                <codeforces:CodeforcesViewModel />
+            </Expander.DataContext>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ItemsControl  ItemsSource="{Binding Items}" HorizontalContentAlignment="Stretch">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="{Binding Path=background}" CornerRadius="5" BorderThickness="1" BorderBrush="Gray" Margin="15, 5" Padding="5, 2" MouseEnter="SetWatched">
+                                <StackPanel Orientation="Vertical" >
+                                    <Label FontSize="14" FontWeight="DemiBold" Content="{Binding Path=name}" />
+                                    <Label Content="{Binding Path=startDate}" />
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Expander>
     </Grid>
 </Window>
