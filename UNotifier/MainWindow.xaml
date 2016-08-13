@@ -3,6 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:ei = "http://schemas.microsoft.com/expression/2010/interactions"
         xmlns:local="clr-namespace:UNotifier"
         xmlns:codeforces="clr-namespace:Codeforces"
         mc:Ignorable="d"
@@ -17,7 +19,14 @@
                 <ItemsControl  ItemsSource="{Binding Items}" HorizontalContentAlignment="Stretch">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border Background="{Binding Path=background}" CornerRadius="5" BorderThickness="1" BorderBrush="Gray" Margin="15, 5" Padding="5, 2" MouseEnter="SetWatched">
+                            <Border Background="{Binding Path=background}" CornerRadius="5" BorderThickness="1" BorderBrush="Gray" Margin="15, 5" Padding="5, 2">
+                                
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseEnter">
+                                        <ei:CallMethodAction MethodName="SetWatched" TargetObject="{Binding}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                                
                                 <StackPanel Orientation="Vertical" >
                                     <Label FontSize="14" FontWeight="DemiBold" Content="{Binding Path=name}" />
                                     <Label Content="{Binding Path=startDate}" />

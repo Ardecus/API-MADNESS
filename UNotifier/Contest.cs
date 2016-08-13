@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Net;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using UNotifier;
+using UNotifier.Properties;
 
 namespace Codeforces
 {
     [DataContract]
-    public class Contest
+    public class Contest : INotifyPropertyChanged
     {
+        const string newEntry = "Silver",
+                     watchedEntry = "White";
+
         [DataMember] public int id { get; set; }
         [DataMember] public string name { get; set; }
         [DataMember] public int startTimeSeconds { get; set; }
@@ -25,23 +30,18 @@ namespace Codeforces
         }
 
         public bool watched;
-
         public string background
         {
             get
             {
-                return watched ? "White" : "Silver";
+                return watched ? watchedEntry : newEntry;
+            }
+            set
+            {
+                watched = value == watchedEntry;
+                OnPropertyChanged("background");
             }
         }
-        /*
-        public Contest(int id, string name, int startTimeSeconds, string phase)
-        {
-            this.id = id;
-            this.name = name;
-            this.startTimeSeconds = startTimeSeconds;
-            this.phase = phase;
-        }
-        */
 
         public static List<Contest> GetContests()
         {
@@ -57,8 +57,10 @@ namespace Codeforces
 
                 var dataStream = response.GetResponseStream();
                 var serializer = new DataContractJsonSerializer(typeof(JsonResponce<Contest>));
-
                 var responce = (JsonResponce<Contest>)serializer.ReadObject(dataStream);
+
+                bool reached = false;
+
                 foreach (var item in responce.result)
                 {
                     if (item.phase != "BEFORE")
@@ -66,12 +68,31 @@ namespace Codeforces
                         break;
                     }
 
-                    item.watched = false;
+                    if (!reached)
+                    {
+                        reached = item.id == Settings.Default.LastCodeforcesId;
+                    }
+                    item.watched = reached;
                     result.Add(item);
                 }
+
+                Settings.Default.LastCodeforcesId = responce.result[0].id;
+                Settings.Default.Save();
             }
 
             return result;
+        }
+        
+        public void SetWatched()
+        {
+            background = watchedEntry;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string name)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
     }
 }
