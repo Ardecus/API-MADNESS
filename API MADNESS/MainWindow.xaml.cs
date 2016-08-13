@@ -49,6 +49,8 @@ namespace API_MADNESS
                 var serializer = new DataContractJsonSerializer(typeof(Responce));
                 Responce res = (Responce)serializer.ReadObject(dataStream);
 
+                bool reached = false;
+
                 foreach (var item in res.result)
                 {
                     if (item.phase != "BEFORE")
@@ -56,15 +58,23 @@ namespace API_MADNESS
                         break;
                     }
 
+                    if (!reached)
+                    {
+                        reached = item.id == Properties.Settings.Default.LastCodeforcesId;
+                    }
+
                     DateTime starts = DateFromUnix(item.startTimeSeconds);
 
                     ContentControl challenge = new ContentControl();
                     challenge.Tag = item.name;
                     challenge.Content = "Starts " + starts.ToShortDateString() + " at " + starts.ToShortTimeString();
-                    challenge.ContentTemplate = (DataTemplate)FindResource("CodeforcesTemplate");
+                    challenge.ContentTemplate = (DataTemplate)FindResource(reached ? "CodeforcesTemplateRead" : "CodeforcesTemplate");
 
                     CodeforcesList.Children.Add(challenge);
                 }
+
+                Properties.Settings.Default.LastCodeforcesId = res.result[0].id;
+                Properties.Settings.Default.Save();
             }
         }
 
