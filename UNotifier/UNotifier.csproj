@@ -66,10 +66,10 @@
   <ItemGroup>
     <Compile Include="CodeforcesViewModel.cs" />
     <Compile Include="Contest.cs" />
-    <Compile Include="JsonResponce.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="NotifyTaskCompletion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Input;
+﻿using System.Windows;
 
 namespace UNotifier
 {
@@ -12,8 +10,6 @@ namespace UNotifier
         public MainWindow()
         {
             InitializeComponent();
-        }
-
-        
+        }        
     }
 }

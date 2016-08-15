@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Net;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
-using UNotifier;
+using System.Threading.Tasks;
 using UNotifier.Properties;
 
 namespace Codeforces
@@ -12,15 +12,28 @@ namespace Codeforces
     [DataContract]
     public class Contest : INotifyPropertyChanged
     {
+        [DataContract]
+        private class JsonResponce<T>
+        {
+            [DataMember]
+            public string status;
+            [DataMember]
+            public List<T> result;
+        }
+
         const string newEntry = "Silver",
                      watchedEntry = "White";
 
-        [DataMember] public int id { get; set; }
-        [DataMember] public string name { get; set; }
-        [DataMember] public int startTimeSeconds { get; set; }
-        [DataMember] public string phase { get; set; }
+        [DataMember]
+        public int id { get; set; }
+        [DataMember]
+        public string name { get; set; }
+        [DataMember]
+        public int startTimeSeconds { get; set; }
+        [DataMember]
+        public string phase { get; set; }
 
-        public string startDate
+        public string startDateString
         {
             get
             {
@@ -43,9 +56,9 @@ namespace Codeforces
             }
         }
 
-        public static List<Contest> GetContests()
+        public static async Task<List<Contest>> GetContests()
         {
-            List<Contest> result = new List<Contest>();
+            var result = new List<Contest>();
 
             var request = WebRequest.CreateHttp("http://codeforces.com/api/contest.list");
             using (var response = (HttpWebResponse)request.GetResponse())
@@ -82,7 +95,7 @@ namespace Codeforces
 
             return result;
         }
-        
+
         public void SetWatched()
         {
             background = watchedEntry;
