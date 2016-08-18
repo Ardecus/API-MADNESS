@@ -1,0 +1,82 @@
+﻿<Window x:Class="UNotifier.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:ei = "http://schemas.microsoft.com/expression/2010/interactions"
+        xmlns:local="clr-namespace:UNotifier"
+        xmlns:codeforces="clr-namespace:Codeforces"
+        xmlns:freelance="clr-namespace:Freelance"
+        mc:Ignorable="d"
+        Title="UNotifier" Height="400" Width="600">
+
+    <Window.Resources>
+        <local:BooleanToSolidColorBrushConverter x:Key="BooleanToSolidColorBrushConverter" />
+    </Window.Resources>
+    
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Orientation="Vertical">
+            <Expander Header="Codeforces">
+                <Expander.DataContext>
+                    <codeforces:CodeforcesViewModel/>
+                </Expander.DataContext>
+                <ItemsControl  ItemsSource="{Binding Contests.Result}" HorizontalContentAlignment="Stretch">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="{Binding Path=Watched, Converter={StaticResource BooleanToSolidColorBrushConverter}}" Style="{StaticResource Panel}">
+
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseEnter">
+                                        <ei:CallMethodAction MethodName="SetWatched" TargetObject="{Binding}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+
+                                <StackPanel Orientation="Vertical">
+                                    <Label FontSize="14" FontWeight="DemiBold">
+                                        <Label.Content>
+                                            <AccessText TextWrapping="Wrap" Text="{Binding Path=Name}"/>
+                                        </Label.Content>
+                                    </Label>
+                                    <Label>
+                                        <Label.Content>
+                                            <AccessText TextWrapping="Wrap" Text="{Binding Path=StartDateString}"/>
+                                        </Label.Content>
+                                    </Label>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Expander>
+            <Expander Header="Freelance">
+                <Expander.DataContext>
+                    <freelance:FreelanceViewModel/>
+                </Expander.DataContext>
+                <ItemsControl  ItemsSource="{Binding Offers.Result}" HorizontalContentAlignment="Stretch" Height="Auto">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="{Binding Path=Watched, Converter={StaticResource BooleanToSolidColorBrushConverter}}" Style="{StaticResource Panel}">
+                                
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseEnter">
+                                        <ei:CallMethodAction MethodName="SetWatched" TargetObject="{Binding}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+
+                                <StackPanel Orientation="Vertical" >
+                                    <Label FontSize="14" FontWeight="DemiBold" Tag="{Binding Link}" MouseUp="OpenLink" Cursor="Hand">
+                                        <AccessText TextWrapping="Wrap" Text="{Binding Path=TitleString, Mode=OneWay}"/>
+                                    </Label>
+                                    <Label>
+                                        <AccessText TextWrapping="Wrap" Text="{Binding Details}"/>
+                                    </Label>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Expander>
+        </StackPanel>
+    </ScrollViewer>
+</Window>

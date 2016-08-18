@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Threading.Tasks;
 
 namespace UNotifier
@@ -36,6 +35,12 @@ namespace UNotifier
             {
                 Task<TResult> inner = Task<TResult>.Factory.StartNew(() => { return default(TResult); });
                 task = inner;
+            }
+
+            var propertyChanged = PropertyChanged;
+            if (propertyChanged != null && task.IsCompleted)
+            {
+                propertyChanged(this, new PropertyChangedEventArgs($"{nameof(Result)}"));
             }
         }
     }

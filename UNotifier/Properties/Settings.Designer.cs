@@ -34,5 +34,17 @@ namespace UNotifier.Properties {
                 this["LastCodeforcesId"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LastFreelanceTheme {
+            get {
+                return ((string)(this["LastFreelanceTheme"]));
+            }
+            set {
+                this["LastFreelanceTheme"] = value;
+            }
+        }
     }
 }
